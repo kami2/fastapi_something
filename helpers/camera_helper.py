@@ -4,16 +4,18 @@ import cv2
 import threading
 import json
 import logging
+import asyncio
 from app.config import Config
 
 
 class CameraHelper:
 
-    def __init__(self):
+    def __init__(self, test=False):
         self.host_ip = Config.CAMERA_HOST_IP
         self.host_port = Config.CAMERA_HOST_PORT
         self.rtsp = Config.CAMERA_RTSP_ADDRESS
         self.token = 0
+        self.test = test
 
     def connect_camera(self):
 
@@ -43,7 +45,7 @@ class CameraHelper:
             logging.error(f"Socket error: {e}")
 
     @staticmethod
-    def capture_video():
+    def render_video_in_window():
         stream = cv2.VideoCapture(Config.CAMERA_RTSP_ADDRESS)
         while stream.isOpened():
             ret, frame = stream.read()
@@ -53,19 +55,34 @@ class CameraHelper:
         stream.release()
         cv2.destroyAllWindows()
 
+    @staticmethod
+    async def generate_frames():
+        stream = cv2.VideoCapture(Config.CAMERA_RTSP_ADDRESS)
+        while True:
+            ret, frame = stream.read()
+            if not ret:
+                break
+            _, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            await asyncio.sleep(0.01)  # Control the frame rate
+        stream.release()
+
     def run(self):
         logging.info("Starting camera connection thread")
         connection = threading.Thread(target=self.connect_camera)
         connection.start()
         logging.info("Camera connection thread started")
 
-        logging.info("Starting capture video thread")
-        capture_video = threading.Thread(target=self.capture_video)
-        capture_video.start()
-        logging.info("Capture video thread started")
+        if self.test:
+            logging.info("Starting capture video thread")
+            capture_video = threading.Thread(target=self.render_video_in_window)
+            capture_video.start()
+            logging.info("Capture video thread started")
 
 
 if __name__ == "__main__":
     Config.initialize()
-    cam = CameraHelper()
+    cam = CameraHelper(test=True)
     cam.run()

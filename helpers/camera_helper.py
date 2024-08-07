@@ -66,7 +66,7 @@ class CameraHelper:
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            await asyncio.sleep(0.01)  # Control the frame rate
+            await asyncio.sleep(0.01)
         stream.release()
 
     def run(self):

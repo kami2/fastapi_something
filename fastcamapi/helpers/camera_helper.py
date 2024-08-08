@@ -5,7 +5,7 @@ import threading
 import json
 import logging
 import asyncio
-from app.config import Config
+from fastcamapi.config import Config
 
 
 class CameraHelper:

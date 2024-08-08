@@ -1,5 +1,5 @@
 import uvicorn
-from app import app
+from fastcamapi import app
 
 
 if __name__ == "__main__":

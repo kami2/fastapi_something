@@ -1,6 +1,6 @@
-from app import app
+from fastcamapi import app
 from starlette.responses import StreamingResponse
-from helpers.camera_helper import CameraHelper
+from fastcamapi.helpers.camera_helper import CameraHelper
 import logging
 
 

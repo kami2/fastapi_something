@@ -12,6 +12,9 @@ class Config:
     CAMERA_RTSP_ADDRESS = "rtsp://192.168.42.1/live"
     TEST_VAR = os.environ.get("TEST_VAR")
 
+    CLIENT_ID = os.environ.get("CLIENT_ID")
+    CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+
     @staticmethod
     def initialize():
         try:

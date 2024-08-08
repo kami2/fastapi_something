@@ -3,11 +3,6 @@ from dotenv import load_dotenv
 import os
 
 
-def get_config(key: str):
-    logging.info(f"Get environment variable {key}")
-    return os.environ.get(key)
-
-
 class Config:
 
     load_dotenv()
@@ -32,4 +27,3 @@ if __name__ == "__main__":
     logging.info('Info should be visible')
     logging.warning('Warning should be visible')
     logging.error('Error should be visible')
-

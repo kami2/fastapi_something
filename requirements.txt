@@ -3,3 +3,4 @@ uvicorn
 opencv-python
 starlette
 python-dotenv
+itsdangerous

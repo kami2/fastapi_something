@@ -15,6 +15,10 @@ class Config:
     CLIENT_ID = os.environ.get("CLIENT_ID")
     CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
+    MONGODB_URL = os.environ.get("MONGODB_URL")
+    MONGODB_NAME = os.environ.get("MONGODB_NAME")
+    MONGODB_COLLECTION = os.environ.get("MONGODB_COLLECTION")
+
     @staticmethod
     def initialize():
         try:

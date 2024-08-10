@@ -2,7 +2,7 @@ import uvicorn
 from starlette.responses import StreamingResponse
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse
-from authlib.integrations.starlette_client import OAuthError, OAuth
+from authlib.integrations.starlette_client import OAuthError
 import logging
 
 from config import Config
@@ -14,18 +14,7 @@ app = FastAPI()
 Config.initialize()
 CameraHelper().run()
 app.add_middleware(SessionMiddleware, secret_key="some-random-string")
-
-
-oauth = OAuth()
-oauth.register(
-    name='google',
-    client_id=Config.CLIENT_ID,
-    client_secret=Config.CLIENT_SECRET,
-    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={
-        'scope': 'openid email profile'
-    }
-)
+oauth = Config.oauth_google()
 
 
 @app.get("/")

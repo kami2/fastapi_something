@@ -1,6 +1,8 @@
-import logging
-from dotenv import load_dotenv
 import os
+import logging
+
+from dotenv import load_dotenv
+from authlib.integrations.starlette_client import OAuth
 
 
 class Config:
@@ -26,6 +28,20 @@ class Config:
             logging.info("CONFIG INITIALIZED")
         except Exception as e:
             raise f"Failed to initialize config [{e}]"
+
+    @staticmethod
+    def oauth_google():
+        oauth = OAuth()
+        oauth.register(
+            name='google',
+            client_id=Config.CLIENT_ID,
+            client_secret=Config.CLIENT_SECRET,
+            server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+            client_kwargs={
+                'scope': 'openid email profile'
+            }
+        )
+        return oauth
 
 
 if __name__ == "__main__":

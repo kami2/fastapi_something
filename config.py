@@ -21,6 +21,8 @@ class Config:
     MONGODB_NAME = os.environ.get("MONGODB_NAME")
     MONGODB_COLLECTION = os.environ.get("MONGODB_COLLECTION")
 
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+
     @staticmethod
     def initialize():
         try:

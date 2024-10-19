@@ -1,6 +1,6 @@
 import motor.motor_asyncio
 import asyncio
-from config import Config
+from fastapi_something.config import Config
 
 
 class MongoDBHelper:

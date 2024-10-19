@@ -1,0 +1,62 @@
+name: ${{ secrets.PACKAGE_NAME }}
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install build module
+        run: |
+          python -m pip install build
+        continue-on-error: true
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Build Python Package as Wheel
+        run: |
+          python -m build --wheel
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Turn off StrictHostKey check
+        run: |
+           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_LOGIN }}@${{ secrets.SSH_HOST }}
+
+      - name: Copy Package to Server
+        run: |
+          scp dist/*.whl ${{ secrets.SSH_LOGIN }}@${{ secrets.SSH_HOST }}:/usr/home/${{ secrets.SSH_LOGIN }}/domains/${{ secrets.WEB_NAME }}/public_python/
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Activate virtual environment and Install app
+        run: |
+          ssh ${{ secrets.SSH_LOGIN }}@${{ secrets.SSH_HOST }} "source /usr/home/${{ secrets.SSH_LOGIN }}/${{ secrets.ENVIRONMENT_NAME }}/bin/activate && pip uninstall -y ${{ secrets.PACKAGE_NAME }} && cd /usr/home/${{ secrets.SSH_LOGIN }}/domains/${{ secrets.WEB_NAME }}/public_python && pip install *.whl"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Remove Wheel package
+        run: |
+          ssh ${{ secrets.SSH_LOGIN }}@${{ secrets.SSH_HOST }} "rm /usr/home/${{ secrets.SSH_LOGIN }}/domains/${{ secrets.WEB_NAME }}/public_python/*.whl"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Restart web service
+        run: |
+          ssh ${{ secrets.SSH_LOGIN }}@${{ secrets.SSH_HOST }} "devil www restart ${{ secrets.WEB_NAME }}"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

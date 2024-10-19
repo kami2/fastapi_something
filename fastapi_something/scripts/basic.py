@@ -1,6 +1,6 @@
 import secrets
 import logging
-from config import Config
+from fastapi_something.config import Config
 
 
 def generate_secret_key():

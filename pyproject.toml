@@ -21,6 +21,16 @@ classifiers = [
 ]
 
 dependencies = [
+    'setuptools==70.0',
+    'fastapi',
+    'uvicorn',
+    'opencv-python',
+    'starlette',
+    'python-dotenv',
+    'itsdangerous',
+    'authlib',
+    'httpx',
+    'motor',
 ]
 
 [project.urls]

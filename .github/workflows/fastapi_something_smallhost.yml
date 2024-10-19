@@ -1,4 +1,4 @@
-name: ${{ secrets.PACKAGE_NAME }}
+name: SMALL_TEMPLATE
 
 on:
   push:

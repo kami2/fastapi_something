@@ -27,7 +27,6 @@ dependencies = [
     'starlette',
     'python-dotenv',
     'itsdangerous',
-    'authlib',
     'httpx',
     'motor',
 ]

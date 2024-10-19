@@ -21,8 +21,6 @@ classifiers = [
 ]
 
 dependencies = [
-    'setuptools==70.0',
-    'fastapi'
 ]
 
 [project.urls]

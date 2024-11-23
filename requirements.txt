@@ -1,4 +1,5 @@
 setuptools==70.0
+requests
 fastapi
 uvicorn
 opencv-python

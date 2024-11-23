@@ -21,6 +21,7 @@ class Config:
     MONGODB_NAME = os.environ.get("MONGODB_NAME")
     MONGODB_COLLECTION = os.environ.get("MONGODB_COLLECTION")
 
+    PACIAK_NODEBB = os.environ.get("PACIAK_NODEBB")
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
     @staticmethod

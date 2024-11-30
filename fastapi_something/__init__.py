@@ -6,7 +6,6 @@ from starlette.middleware.sessions import SessionMiddleware
 app = FastAPI()
 Config.initialize()
 # CameraHelper().run()
-# noinspection PyTypeChecker
 app.add_middleware(SessionMiddleware, secret_key=Config.SECRET_KEY)
 oauth = Config.oauth_google()
 

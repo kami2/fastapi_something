@@ -14,8 +14,8 @@ class Config:
     CAMERA_RTSP_ADDRESS = "rtsp://192.168.42.1/live"
     TEST_VAR = os.environ.get("TEST_VAR")
 
-    CLIENT_ID = os.environ.get("CLIENT_ID")
-    CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+    GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 
     MONGODB_URL = os.environ.get("MONGODB_URL")
     MONGODB_NAME = os.environ.get("MONGODB_NAME")
@@ -23,6 +23,11 @@ class Config:
 
     PACIAK_FORUM_URL = os.environ.get("PACIAK_FORUM_URL")
     PACIAK_FORUM_SECRET = os.environ.get("PACIAK_FORUM_SECRET")
+    PACIAK_SLACK_APP = os.environ.get("PACIAK_SLACK_APP")
+    PACIAK_SLACK_TOKEN = os.environ.get("PACIAK_SLACK_TOKEN")
+    PACIAK_SLACK_CLIENT_ID = os.environ.get("PACIAK_SLACK_CLIENT_ID")
+    PACIAK_SLACK_CLIENT_SECRET = os.environ.get("PACIAK_SLACK_CLIENT_SECRET")
+    PACIAK_SLACK_SIGNING_SECRET = os.environ.get("PACIAK_SLACK_SIGNING_SECRET")
 
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -39,8 +44,8 @@ class Config:
         oauth = OAuth()
         oauth.register(
             name='google',
-            client_id=Config.CLIENT_ID,
-            client_secret=Config.CLIENT_SECRET,
+            client_id=Config.GOOGLE_CLIENT_ID,
+            client_secret=Config.GOOGLE_CLIENT_SECRET,
             server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
             client_kwargs={
                 'scope': 'openid email profile'
